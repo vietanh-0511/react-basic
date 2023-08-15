@@ -8,14 +8,7 @@ class Form extends React.Component {
         content: "",
         contentError: false,
         contentErrorMsg: "",
-        deadline: ""
     }
-
-    // handleChange = (event) => {
-    //     this.setState({
-    //         content: event.target.value
-    //     })
-    // }
 
     validation = () => {
         console.log(this.state.content);
@@ -26,7 +19,6 @@ class Form extends React.Component {
         this.setState({
             contentErrorMsg: msg
         })
-        console.log(this.state.contentErrorMsg);
         if (Object.keys(msg).length > 0) {
             this.setState({
                 contentError: true
@@ -37,17 +29,18 @@ class Form extends React.Component {
             this.setState({
                 contentError: false
             })
+            return true
         }
-        return true
     }
 
     handleSubmit = (event) => {
         event.preventDefault()
-        this.validation()
-        this.props.addNewItem({
-            id: Math.floor(Math.random() * 1674),
-            content: this.state.content
-        })
+        if (this.validation() === true) {
+            this.props.addNewItem({
+                // id: Math.floor(Math.random() * 1674),
+                content: this.state.content
+            })
+        }
     }
 
     render() {
@@ -57,7 +50,7 @@ class Form extends React.Component {
                     <TextField
                         id="content"
                         value={this.state.content}
-                        label="Name"
+                        label="Content"
                         helperText={this.state.contentErrorMsg.content}
                         error={this.state.contentError}
                         dark

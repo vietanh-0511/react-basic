@@ -1,30 +1,20 @@
 import React from "react"
 import Form from "../../components/Form";
 import List from "../../components/List";
+import axios from "axios";
 
 class ToDoList extends React.Component {
 
     state = {
-        name: "Viet Anh",
-        toDoList: [
-            {
-                id: 1,
-                content: "learn react",
-                deadline: "31-08-2023"
-            },
-            {
-                id: 2,
-                content: "build a test project",
-                deadline: "31-09-2023"
-            }
-        ]
+        toDoList: []
     }
   
     addNewItem = (item) => {
-      console.log(item)
-      this.setState({
-        toDoList: [...this.state.toDoList, item]
-      })
+        axios.post('https://6441f73376540ce22581bab3.mockapi.io/api/to-do-list/todos', item).then(response =>{
+            if (response) {
+                this.fetchTodos()
+            }
+        })
     }
 
     onChangeHandle(event) {
@@ -33,10 +23,22 @@ class ToDoList extends React.Component {
         })
     }
 
+    fetchTodos = () => {
+        axios.get('https://6441f73376540ce22581bab3.mockapi.io/api/to-do-list/todos').then(response =>{
+            this.setState({
+                toDoList: response.data
+            })
+            console.log(this.state.toDoList);
+        })
+    }
+
+    componentDidMount() {
+        this.fetchTodos()
+    }
+
     render() {
         return (
             <div>
-                adu vjp
                 <Form addNewItem = { this.addNewItem }/>
                 <List toDoList = { this.state.toDoList } />
             </div>
