@@ -23,6 +23,10 @@ const pages = [
   {
     title: 'About',
     path: 'about'
+  },
+  {
+    title: 'Counter',
+    path: 'counter'
   }
 ]
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];

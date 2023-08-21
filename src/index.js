@@ -7,19 +7,26 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ToDoList from './pages/ToDo/ToDoList';
 import About from './pages/About/About';
 import Home from './pages/Home/Home';
+import Counter from './pages/Counter/Counter';
+import { Provider } from 'react-redux'
+import store from './store/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<App />} exact>
-          <Route index element={<Home />} />
-          <Route path="to-do-list" element={<ToDoList />} />
-          <Route path="about" element={<About />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<App />} exact>
+            <Route index element={<Home />} />
+            <Route path="to-do-list" element={<ToDoList />} />
+            <Route path="about" element={<About />} />
+            <Route path="counter" element={<Counter />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>
 );
 
