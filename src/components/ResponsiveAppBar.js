@@ -27,6 +27,10 @@ const pages = [
   {
     title: 'Counter',
     path: 'counter'
+  },
+  {
+    title: 'Users',
+    path: 'users'
   }
 ]
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];

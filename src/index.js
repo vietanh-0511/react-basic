@@ -10,6 +10,8 @@ import Home from './pages/Home/Home';
 import Counter from './pages/Counter/Counter';
 import { Provider } from 'react-redux'
 import store from './store/store';
+import Users from './pages/Users/Users';
+import UserDetail from './pages/Users/Detail';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -22,7 +24,9 @@ root.render(
             <Route index element={<Home />} />
             <Route path="to-do-list" element={<ToDoList />} />
             <Route path="about" element={<About />} />
-            <Route path="counter" element={<Counter />} />
+            <Route path="counter" element={<Counter />}/>
+            <Route path="users" element={<Users />} exact />
+            <Route path="users/:id" element={<UserDetail />}/>
           </Route>
         </Routes>
       </BrowserRouter>
