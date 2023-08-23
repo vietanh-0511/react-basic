@@ -1,6 +1,7 @@
 import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "../../api/axios";
 
 function List(props) {
 
@@ -25,7 +26,11 @@ function List(props) {
     };
 
     const handleCellClick = (id) => {
-        navigate(`${id}`, { state: { id }})
+        console.log(id);
+        axios.get('users/' + id).then(response =>{
+            const user = response.data.data
+            navigate(`${id}`, { state: { user }})
+        })
     }
 
     return (
