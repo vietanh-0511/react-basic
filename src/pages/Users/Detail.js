@@ -1,7 +1,10 @@
-import { Autocomplete, Box, Chip, FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, OutlinedInput, Radio, RadioGroup, Select, TextField } from "@mui/material";
+import { Autocomplete, Box, Chip, FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, OutlinedInput, Radio, RadioGroup, Select, Stack, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "../../api/axios";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
 
 function UserDetail() {
 
@@ -9,6 +12,7 @@ function UserDetail() {
 
     const [user, setUser] =  useState(location.state.user ?? {})
     const [roles, setRoles] =  useState([])
+    const [selectedRoles, setSelectedRoles] = useState([])
 
     const top100Films = [
         { title: 'The Shawshank Redemption', year: 1994 },
@@ -21,32 +25,27 @@ function UserDetail() {
       ];
 
     useEffect(() => {
-        console.log(user);
-        axios.get('roles').then(response =>{
-            console.log(response.data.data);
+         axios.get('roles').then(response =>{
             setRoles(response.data.data)
         })
+        
     }, [])
+
+    useEffect(() => {
+        const selectedRoles = roles.filter((role) => {
+            return user.role_ids.includes(role.id)
+        })
+        setSelectedRoles(selectedRoles)
+        
+    }, [roles])
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(event);
-    }
-
-    const onChangeHandle = (e) => {
-        console.log('e of role', e.target.value);
-        const {
-            target: { value },
-          } = e;
-
-          setUser(
-            {
-                target: { value },
-              } = e
-            // On autofill we get a stringified value.
-            // typeof value === 'string' ? value.split(',') : value,
-          );
-        //   console.log(user);
+        console.log(user)
+        user.roles = selectedRoles.map(role => role.id)
+        axios.post(`/users/${user.id}`, user).then((response) => {
+            console.log(response);
+        })
     }
 
     const ITEM_HEIGHT = 48;
@@ -117,43 +116,33 @@ function UserDetail() {
                                 <FormControlLabel value="5" control={<Radio />} label="RM Official" />
                             </RadioGroup>
                         </FormControl>
-                        <FormControl sx={{ m: 1, width: 300 }}>
-                            <InputLabel id="demo-multiple-chip-label">Chip</InputLabel>
-                            <Select
-                            labelId="demo-multiple-chip-label"
-                            id="demo-multiple-chip"
-                            multiple
-                            value={user.role_ids}
-                            onChange={(e) => onChangeHandle(e)}
-                            input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-                            renderValue={(selected) => (
-                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                                {selected.map((value) => (
-                                    console.log(value),
-                                    <Chip key={value} label={value} />
-                                ))}
-                                </Box>
-                            )}
-                            MenuProps={MenuProps}
-                            >
-                            {roles.map((role, index) => (
-                                <MenuItem
-                                key={index}
-                                value={role.id}
-                                >
-                                {role.name}
-                                </MenuItem>
-                            ))}
-                            </Select>
-                        </FormControl>
-                        <TextField
-                        required
-                        id="standard-required"
-                        label="Date Joined"
-                        value={user.join_date}
-                        variant="standard"
-                        onChange={(e) => setUser({...user, join_date: e.target.value})}
-                        />
+                        <Stack spacing={3} sx={{ width: 500 }}>
+                            <Autocomplete
+                                multiple
+                                id="tags-standard"
+                                options={roles}
+                                getOptionLabel={(option) => option.name}
+                                value={selectedRoles}
+                                onChange={(event, newValue) => {
+                                    setSelectedRoles(newValue);
+                                }}
+                                renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    variant="standard"
+                                    label="Multiple values"
+                                    placeholder="Favorites"
+                                />
+                                )}
+                            />
+                        </Stack>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                                label="Controlled picker"
+                                value={dayjs(user.join_date)}
+                                onChange={(newValue) => setUser({...user, join_date: newValue})}
+                            />
+                        </LocalizationProvider>
                     </div>
                 </Box>
                 <input type="submit" value="Submit" />
