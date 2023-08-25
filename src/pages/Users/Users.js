@@ -1,6 +1,7 @@
 import React from "react"
 import List from "../../components/users/List"
 import axios from "../../api/axios"
+import { Button } from "@mui/material"
 
 class Users extends React.Component {
 
@@ -38,7 +39,7 @@ class Users extends React.Component {
     render() {
         return (
             <div>
-                {/* <Form addNewItem = { this.addNewItem }/> */}
+                <Button variant="contained" onClick={() => {window.location.replace('/users/create')}}>Create</Button>
                 <List users = { this.state.users } />
             </div>
         )

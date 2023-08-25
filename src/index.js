@@ -27,6 +27,7 @@ root.render(
             <Route path="counter" element={<Counter />}/>
             <Route path="users" element={<Users />} exact />
             <Route path="users/:id" element={<UserDetail />}/>
+            <Route path="users/create" element={<UserDetail />}/>
           </Route>
         </Routes>
       </BrowserRouter>
