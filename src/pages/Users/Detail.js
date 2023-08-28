@@ -58,7 +58,7 @@ function UserDetail() {
 
   return (
     <>
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" sx={{ mt:5 }}>
         <Typography variant="h3" gutterBottom>
           UserDetail
         </Typography>
