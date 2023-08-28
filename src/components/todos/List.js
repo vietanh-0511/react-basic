@@ -31,28 +31,6 @@ class List extends React.Component {
     render() {
         return (
             <div>
-                {/* {
-                    this.props.toDoList.map(function(item){
-                        return (
-                            <div key={ item.id }>
-                                { item.id } - { item.content }
-                            </div>
-                        )
-                    })
-                } */}
-
-                {/* data table */}
-                {/* <DataGrid
-                    rows={this.props.toDoList}
-                    columns={this.columns}
-                    initialState={{
-                    pagination: {
-                        paginationModel: { page: 0, pageSize: 5 },
-                    },
-                    }}
-                    pageSizeOptions={[5, 10]}
-                /> */}
-
                 <TableContainer sx={{ maxHeight: 440 }}>
                     <Table stickyHeader aria-label="sticky table">
                         <TableHead>

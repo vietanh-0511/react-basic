@@ -1,6 +1,6 @@
 import React from "react"
-import Form from "../../components/Form";
-import List from "../../components/List";
+import Form from "../../components/todos/Form";
+import List from "../../components/todos/List";
 import axios from "axios";
 
 class ToDoList extends React.Component {
